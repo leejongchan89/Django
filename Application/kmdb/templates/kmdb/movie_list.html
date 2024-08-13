@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        <h1>Movie List</h1>
+        <ol>
+            <!-- Django Template Language -->
+            {% for movie in movieList %} <!-- 확장 for문과 비슷하다 -->
+                <li>{{movie.MovieNm}}({{movie.MovieNmEn}})</li>
+            {% endfor %}
+        </ol>
+    </body>
+</html>

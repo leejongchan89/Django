@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Movie List</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>영화명(국문)</th>
+                <th>영화명(영문)</th>
+                <th>개봉일</th>
+                <th>영화 유형</th>
+                <th>대표제작국가</th>
+                <th>대표장르</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for movie in movieList %}
+            <tr>
+                <td>{{movie.MovieNm}}</td>
+                <td>{{movie.MovieNmEn}}</td>
+                <td>{{movie.openDt}}</td>
+                <td>{{movie.typeNm}}</td>
+                <td>{{movie.repNationNm}}</td>
+                <td>{{movie.repGenreNm}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <hr/> <!-- 수평선 -->
+
+    <div>
+        <span>
+            {% if not movieList.has_previous %}
+                <a>맨처음</a> <!-- 파라미터 -->
+                <a>이전</a>
+            {% endif %}
+
+            {% if movieList.has_previous %}
+                <a href="?page=1">맨처음</a> <!-- 파라미터 -->
+                <a href="?page={{movieList.previous_page_number}}">이전</a>
+            {% endif %}
+
+            &nbsp;&nbsp;&#160; <!-- HTML Entities는 HTML 문서에서 특수 문자를 표현하는 데 사용되는 문자열입니다. 이들은 앰퍼샌드(&)로 시작하고, 세미콜론(;)으로 끝나며, 종종 문자나 기호를 HTML 코드로 표현하기 위해 사용됩니다. -->
+            <span>
+                Page {{movieList.number}} of {{movieList.paginator.num_pages}}
+            </span>
+            &nbsp;&nbsp;&nbsp;
+
+
+            {% if movieList.has_next %}
+                <a href="?page={{movieList.next_page_number}}">다음</a>
+                <a href="?page={{movieList.paginator.num_pages}}">맨끝</a> <!-- 파라미터 -->
+            {% endif %}
+        </span>
+    </div>
+</body>
+</html>
