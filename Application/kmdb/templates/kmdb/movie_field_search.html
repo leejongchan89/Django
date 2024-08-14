@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block title %}Movie List{% endblock %}
+
+{% block content %}
+<h1 class="text-center mb-4">Movie List</h1>
+
+<!-- 필드 검색 기능 추가 -->
+    <form method="GET" action="/movies/field_search" class="mb-4">
+        <input type="hidden" name="page" value="{{ request.GET.page|default:1 }}">
+        <div class="row justify-content-center">
+            <div class="col-md-3">
+                <select class="form-select" name="mode">
+                    <option value="">--- 검색 필드를 지정해 주세요.</option>
+                    <option value="movieNm" {% if request.GET.mode == 'movieNm' %}selected{% endif %}>영화명(국문)</option>
+                    <option value="typeNm" {% if request.GET.mode == 'typeNm' %}selected{% endif %}>영화 유형</option>
+                    <option value="repGenreNm" {% if request.GET.mode == 'repGenreNm' %}selected{% endif %}>대표 장르</option>
+                </select>
+            </div>
+            <div class="col-md-5">
+                <input type="text" class="form-control" name="keyword" placeholder="검색어를 입력하세요" value="{{ request.GET.keyword }}">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">검색</button>
+            </div>
+        </div>
+    </form>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>영화코드</th>
+            <th>영화명(국문)</th>
+            <th>영화명(영문)</th>
+            <th>제작연도</th>
+            <th>개봉일</th>
+            <th>영화유형</th>
+            <th>제작상태</th>
+            <th>제작국가(전체)</th>
+            <th>영화장르(전체)</th>
+            <th>대표제작국가</th>
+            <th>대표장르</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for movie in movieList %}
+        <tr>
+            <td>{{ movie.MovieCd }}</td>
+            <td>{{ movie.MovieNm }}</td>
+            <td>{{ movie.MovieNmEn }}</td>
+            <td>{{ movie.prdtYear }}</td>
+            <td>{{ movie.openDt|default:"" }}</td>
+            <td>{{ movie.typeNm }}</td>
+            <td>{{ movie.prdtStatNm }}</td>
+            <td>{{ movie.nationAlt }}</td>
+            <td>{{ movie.genreAlt }}</td>
+            <td>{{ movie.repNationNm }}</td>
+            <td>{{ movie.repGenreNm }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- 페이징 네비게이션 -->
+<nav aria-label="Page navigation" class="my-4">
+    <ul class="pagination justify-content-center">
+        {% if has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page=1&{{query_params}}" aria-label="First">
+                <span aria-hidden="true">&laquo;&laquo;</span>
+                <span class="sr-only">First</span>
+            </a>
+        </li>
+
+        <li class="page-item">
+            <a class="page-link" href="?page={{beginPage|add:-1}}&{{query_params}}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="sr-only">Previous</span>
+            </a>
+        </li>
+        {% endif %}
+
+        <!-- 'beginPage':beginPage, "endPage":endPage, 'page_range':page_range -->
+        {% for i in page_range %}
+        <li class="page-item"><a class="page-link" href="?page={{i}}&{{query_params}}">{{i}}</a></li>
+        {% endfor %}
+
+        {% if has_next %}
+        <li class="page-item">
+            <!-- 산술 연산을 수행하려면 add 템플릿 필터를 사용 -->
+            <a class="page-link" href="?page={{endPage|add:+1}}&{{query_params}}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="sr-only">Next</span>
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{movieList.paginator.num_pages}}&{{query_params}}" aria-label="Last">
+                <span aria-hidden="true">&raquo;&raquo;</span>
+                <span class="sr-only">Last</span>
+            </a>
+        </li>
+        {% endif %}
+
+    </ul>
+</nav>
+
+{% endblock %}

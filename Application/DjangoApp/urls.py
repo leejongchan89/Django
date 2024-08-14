@@ -16,19 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls import include # 외부 파일을 포함시킬때 사용합니다.
 
-# URL 경로를 정의하고, 각 URL 경로에 대한 뷰(view)를 설정하는 urlpatterns 목록을 설정
-# kmdb라는 장고의 앱에서 views 모듈을 읽어 들입니다.
-from kmdb import views # 오류가 나더라도 무시 바람
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # 영화 목록을 표시해주는 url
-    # path('요청할url패턴', '호출할View함수', name='url 패턴에 부여한 이름'),
-    path('movies/', views.movie_list, name='movie_list'),
-
-    path('movies/pagination', views.movie_pagination, name='movie_pagination'),
-    path('bootstrap_exercise/', views.bootstrap_exercise, name='bootstrap_exercise'),
-
+    # url 호출시 반드시 접두사 'movies/'를 붙여 주어야 합니다.
+    path('movies/', include('kmdb.urls')) # kmdb 앱의 url 패턴을 포함할게요.
 ]

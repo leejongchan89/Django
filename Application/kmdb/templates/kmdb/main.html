@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Main Page{% endblock %}
+
+{% block content %}
+    <h1 class="my-4">Main Page</h1>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Page</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+               <!-- url 탬플릿은 urls.py 파일에서 name 매개 변수 이름과 일치하는 것을 찾습니다. -->
+                    <td><a href="{% url 'movie_list' %}" class="btn btn-link">영화 목록 보기</a></td>
+                    <td>전체 영화 목록을 순서 없는 목록 형식으로 보여 줍니다.</td>
+                </tr>
+                <tr>
+                    <td><a href="{% url 'movie_pagination' %}" class="btn btn-link">Movie Pagination</a></td>
+                    <td>영화 목록 보기 페이지를 페이지 네이션 기능을 추가 하여 보여 줍니다.</td>
+                </tr>
+                <tr>
+                    <td><a href="{% url 'bootstrap_exercise' %}" class="btn btn-link">부트 스트랩 연습</a></td>
+                    <td>부트 스트랩에 대하여 사전 연습을 합니다.</td>
+                </tr>
+                <tr>
+                    <td><a href="{% url 'movie_bootstrap' %}" class="btn btn-link">Movie Bootstrap</a></td>
+                    <td>영화 목록 보기를 페이지 네이션 기능을 부트 스트랩을 적용 시켜 보여 줍니다.</td>
+                </tr>
+                <tr>
+                    <td><a href="{% url 'movie_field_search' %}" class="btn btn-link">필드 검색 기능</a></td>
+                    <td>페이징 처리 기능과 함께 필드 검색 기능을 보여 줍니다.</td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 모든 td 태그 내의 내용들을 수직 정렬하기 위하여 추가합니다. -->
+    <script>
+        $(document).ready(function(){
+            $('tr td:nth-child(2)').css('vertical-align', 'middle');
+        });
+    </script>
+{% endblock %}
